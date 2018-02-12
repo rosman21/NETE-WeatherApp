@@ -1,0 +1,47 @@
+<div class="row mt-3">
+    <div class="col-md-12">
+        <form class="form-inline" ng-submit="findWeatherByZip(); fiveDayForcast();">
+            <div class="form-group">
+                <label>Search Zip Code:</label>
+                <input type="text" class="form-control mx-sm-3" ng-model="searchZipCode">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+</div>
+<div class="row mt-3" ng-show="findWeatherByZipErrorMessage">
+    <div class="alert alert-danger">
+        {{findWeatherByZipErrorMessage.toUpperCase()}}. Please try a valid zip code
+    </div>
+</div>
+<div class="row mt-3" ng-show="zipCodeData">
+    <div class="col">
+        <div class="card">
+            <div class="card-block">
+                <h6 class="card-subtitle mb-2 text-muted">
+                    <p>{{cityName}}, {{countryCode}}</p>
+                    <p>{{dateNow | date:"MMM d, y h:mm a"}}</p>
+                </h6>
+                <h4 class="card-title">
+                    <img src="https://openweathermap.org/img/w/{{weatherData[0].icon}}.png" width="75" height="75" /> High: {{mainWeatherData.temp_max | roundUp}}&#8457;
+                    <small>Low: {{mainWeatherData.temp_min | roundUp}}&#8457;</small>
+                </h4>
+                <p class="card-text mb-2 text-muted">Humidity: {{zipCodeData.main.humidity | roundUp}}%</p>
+                <p class="card-text mb-2 text-muted">Wind: {{zipCodeData.wind.speed | roundUp}} mph</p>
+                <h3 class="card-text">5 Day forecast:</h3>
+                <div class="row">
+                    <div class="col" ng-repeat="data in fiveday.list">
+                        <p class="card-title">
+                            <img src="https://openweathermap.org/img/w/{{data.weather[0].icon}}.png" width="75" height="75" />
+                            <div style="padding-left: 5px;">
+                                <p>{{unixDate(data.dt)}}</p>
+                                <p>Humidity: {{data.humidity | roundUp}}%</p>
+                                <p>Wind: {{data.speed | roundUp}} mph</p>
+                                <p>{{data.temp.max | roundUp}}&#8457; <small>{{data.temp.min | roundUp}}&#8457;</small></p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
